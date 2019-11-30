@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style type="text/css">
+    	a{
+    		margin: 5px;
+    	}
+    	.dload{
+    		padding: 10px;
+    		margin: 5px;
+    	}
+    	.c-card{
+    		width: 200px; 
+    		background-color: #f8f9fa; 
+    		text-align: center;
+    		border-radius: 5px;
+    		padding: 10px;
+    	}
+    	.left{
+    		text-align: left;
+    		width: 600px;
+    	}
+    	@media only screen and (max-width: 600px) {
+		  .left{
+	    		text-align: left;
+	    		width: 420px;
+    		}
+		}
+    </style>
+
+    <title>Hadoop on windows</title>
+  </head>
+  <body>
+  	<br>
+  	<div class="container">
+  		<hr>
+	  	<h4>1. Download required files:</h4>
+	  	<hr>
+  		<ul class="list-group list-group-horizontal">
+		  <li class="list-group-item">Download hadoop: <a class="btn btn-success" href="https://drive.google.com/file/d/1VFAvD6GqPwEK0JCBXTxnswqa-IlPTcoV/view?usp=sharing" target="_blank" download><i class="fa fa-download"></i> hadoop-2.8.0.rar</a></li>
+		  <li class="list-group-item">Download java: <a class="btn btn-success" href="https://drive.google.com/file/d/13tmshcIQ5CZs8iVVGiQbO4xwEZRo3wKU/view?usp=sharing" target="_blank" download><i class="fa fa-download"></i> java.zip</a></li>
+		  <li class="list-group-item">Download winutils: <a class="btn btn-success" href="./downloads/winutils-bin.zip"><i class="fa fa-download"></i> winutils-bin.zip</a></li>
+		</ul>
+		<hr>
+
+
+	  	<h4>2. Installation and setup:</h4>
+	  	<hr>
+	  	<ul class="list-group">
+		  <li class="list-group-item">Extract <b>hadoop-2.8.0.zip</b> in <code>c:\</code></li>
+		  <li class="list-group-item">Extract <b>java.zip</b> in <code>c:\</code></li>
+		  <li class="list-group-item">Extract <b>winutils-bin.zip</b> in <code>c:\hadoop-2.8.0</code></li>
+		  <li class="list-group-item">set environment variables:
+		  	<ul>
+		  		<li><code>HADOOP_HOME = c:\hadoop-2.8.0</code></li>
+		  		<li><code>JAVA_HOME = c:\java</code></li>
+		  		<li><code>path = c:\java\bin; c:\hadoop-2.8.0\bin</code></li>
+		  	</ul>
+		  </li>
+		</ul>
+		<hr>
+
+
+		<h4>3. Configuration:</h4>
+		<hr>
+		<ul class="list-group">
+		  <li class="list-group-item">
+		  	<ul>
+		  		<li>create new folder <b>data</b> in <code>c:\hadoop-2.8.0\</code></li>
+		  		<li>create new folder <b>datanode</b> in <code>c:\hadoop-2.8.0\data</code></li>
+		  		<li>create new folder <b>namenode</b> in <code>c:\hadoop-2.8.0\data</code></li>
+		  	</ul>
+		  </li>
+		</ul>
+		<br>
+		<h5>Go to <code>c:\hadoop-2.8.0\etc\hadoop\</code></h5>
+		<ul class="list-group">
+			<li>download and replace xml files: <a class="btn btn-success" href="./downloads/xml.zip"><i class="fa fa-download"></i> xml.zip</a></li></li>
+			(or)
+			<li>find and edit:</li><br>
+		  <li class="list-group-item">1. <b>core-site.xml</b> and replace with following <b>code:</b>
+		  	<div class="c-card left">
+<pre><code>
+&lt;<font color="#ec748c">?xml version="1.0" encoding="UTF-8"?</font>&gt;
+&lt;<font color="#ec748c">?xml-stylesheet type="text/xsl" href="configuration.xsl"?</font>&gt;
+&lt;<font color="#5E8FB4">configuration</font>&gt;
+	&lt;<font color="#4CAF50">property</font>&gt;
+		&lt;<font color="#FF9C34">name</font>&gt;fs.defaultFS&lt;<font color="#FF9C34">/name</font>&gt;
+		&lt;<font color="#FF9C34">value</font>&gt;hdfs://localhost:9000&lt;<font color="#FF9C34">/value</font>&gt;
+	&lt;<font color="#4CAF50">/property</font>&gt;
+&lt;<font color="#5E8FB4">/configuration</font>&gt;
+</code></pre>
+			</div></li>
+		  <li class="list-group-item">2. <b>mapred-site.xml</b>and replace with following <b>code:</b><br>
+		  	<div class="c-card left">
+<pre><code>
+&lt;<font color="#ec748c">?xml version="1.0" encoding="UTF-8"?</font>&gt;
+&lt;<font color="#ec748c">?xml-stylesheet type="text/xsl" href="configuration.xsl"?</font>&gt;
+&lt;<font color="#5E8FB4">configuration</font>&gt;
+	&lt;<font color="#4CAF50">property</font>&gt;
+		&lt;<font color="#FF9C34">name</font>&gt;mapreduce.framework.name&lt;<font color="#FF9C34">/name</font>&gt;
+		&lt;<font color="#FF9C34">value</font>&gt;yarn&lt;<font color="#FF9C34">/value</font>&gt;
+	&lt;<font color="#4CAF50">/property</font>&gt;
+&lt;<font color="#5E8FB4">/configuration</font>&gt;
+</code></pre>
+			</div></li>
+		  <li class="list-group-item">3. <b>hdfs-site.xml</b>and replace with following <b>code:</b>
+		  	<div class="c-card left">
+<pre><code>
+&lt;<font color="#ec748c">?xml version="1.0" encoding="UTF-8"?</font>&gt;
+&lt;<font color="#ec748c">?xml-stylesheet type="text/xsl" href="configuration.xsl"?</font>&gt;
+&lt;<font color="#5E8FB4">configuration</font>&gt;
+	&lt;<font color="#4CAF50">property</font>&gt;
+		&lt;<font color="#FF9C34">name</font>&gt;dfs.replication&lt;<font color="#FF9C34">/name</font>&gt;
+		&lt;<font color="#FF9C34">value</font>&gt;1&lt;<font color="#FF9C34">/value</font>&gt;
+	&lt;<font color="#4CAF50">/property</font>&gt;
+	&lt;<font color="#4CAF50">property</font>&gt;
+		&lt;<font color="#FF9C34">name</font>&gt;dfs.namenode.name.dir&lt;<font color="#FF9C34">/name</font>&gt;
+		&lt;<font color="#FF9C34">value</font>&gt;C:\hadoop-2.8.0\data\namenode&lt;<font color="#FF9C34">/value</font>&gt;
+	&lt;<font color="#4CAF50">/property</font>&gt;
+	&lt;<font color="#4CAF50">property</font>&gt;
+		&lt;<font color="#FF9C34">name</font>&gt;dfs.datanode.data.dir&lt;<font color="#FF9C34">/name</font>&gt;
+		&lt;<font color="#FF9C34">value</font>&gt;C:\hadoop-2.8.0\data\datanode&lt;<font color="#FF9C34">/value</font>&gt;
+	&lt;<font color="#4CAF50">/property</font>&gt;
+&lt;<font color="#5E8FB4">/configuration</font>&gt;
+</code></pre>
+			</div></li>
+		  <li class="list-group-item">4. <b>yarn-site.xml</b>and replace with following <b>code:</b>
+		  	<div class="c-card left">
+<pre><code>
+&lt;<font color="#ec748c">?xml version="1.0"?</font>&gt;
+&lt;<font color="#5E8FB4">configuration</font>&gt;
+   &lt;<font color="#4CAF50">property</font>&gt;
+    	&lt;<font color="#FF9C34">name</font>&gt;yarn.nodemanager.aux-services&lt;<font color="#FF9C34">/name</font>&gt;
+    	&lt;<font color="#FF9C34">value</font>&gt;mapreduce_shuffle&lt;<font color="#FF9C34">/value</font>&gt;
+   &lt;<font color="#4CAF50">/property</font>&gt;
+   &lt;<font color="#4CAF50">property</font>&gt;
+      	&lt;<font color="#FF9C34">name</font>&gt;yarn.nodemanager.auxservices.mapreduce.shuffle.class&lt;<font color="#FF9C34">/name</font>&gt;  
+	&lt;<font color="#FF9C34">value</font>&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;<font color="#FF9C34">/value</font>&gt;
+   &lt;<font color="#4CAF50">/property</font>&gt;
+&lt;<font color="#5E8FB4">/configuration</font>&gt;
+</code></pre>
+			</div></li>
+
+		  <li class="list-group-item"><b>format</b> the <b>namenode</b> by running the following command on cmd: <br>
+		  	<div class="c-card">
+			    <code>hdfs namenode -format</code>
+			</div>
+		  </li>
+		</ul>
+		<hr>
+
+
+		<h4>4. Testing:</h4>
+		<hr>
+		<h5>Go to <code>c:\hadoop-2.8.0\sbin\</code></h5>
+		<ul class="list-group">
+			<li class="list-group-item">run <code>start-all.cmd</code> as administrator and make sure all of:
+				<ul>
+					<li><b>yarn-node manager</b></li>
+					<li><b>yarn-resource manager</b></li>
+					<li><b>Namenode</b></li>
+					<li><b>Datanode</b></li>
+				</ul>
+				are running.
+			</li>
+			<li class="list-group-item">find hadoop GUI's at: 
+				<ul>
+					<li><a href="http://localhost:8080" target="_blank">http://localhost:8080</a></li>
+					<li><a href="http://localhost:50070" target="_blank">http://localhost:50070</a></li>
+				</ul>
+			</li>
+		</ul>
+		<hr>
+	</div>
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
