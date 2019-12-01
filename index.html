@@ -27,8 +27,12 @@
     		text-align: left;
     		width: 600px;
     	}
+    	.left-l{
+    		text-align: left;
+    		width: 1000px;
+    	}
     	@media only screen and (max-width: 600px) {
-		  .left{
+		  .left,.left-l{
 	    		text-align: left;
 	    		width: 420px;
     		}
@@ -40,6 +44,7 @@
   <body>
   	<br>
   	<div class="container">
+  		<h3>Installing and Setting up Hadoop on Windows</h3>
   		<hr>
 	  	<h4>1. Download required files:</h4>
 	  	<hr>
@@ -97,8 +102,8 @@
 	&lt;<font color="#4CAF50">/property</font>&gt;
 &lt;<font color="#5E8FB4">/configuration</font>&gt;
 </code></pre>
-			</div></li>
-		  <li class="list-group-item">2. <b>mapred-site.xml</b>and replace with following <b>code:</b><br>
+			</div>
+		  <li class="list-group-item">2. <b>mapred-site.xml</b> and replace with following <b>code:</b><br>
 		  	<div class="c-card left">
 <pre><code>
 &lt;<font color="#ec748c">?xml version="1.0" encoding="UTF-8"?</font>&gt;
@@ -111,7 +116,7 @@
 &lt;<font color="#5E8FB4">/configuration</font>&gt;
 </code></pre>
 			</div></li>
-		  <li class="list-group-item">3. <b>hdfs-site.xml</b>and replace with following <b>code:</b>
+		  <li class="list-group-item">3. <b>hdfs-site.xml</b> and replace with following <b>code:</b>
 		  	<div class="c-card left">
 <pre><code>
 &lt;<font color="#ec748c">?xml version="1.0" encoding="UTF-8"?</font>&gt;
@@ -132,7 +137,7 @@
 &lt;<font color="#5E8FB4">/configuration</font>&gt;
 </code></pre>
 			</div></li>
-		  <li class="list-group-item">4. <b>yarn-site.xml</b>and replace with following <b>code:</b>
+		  <li class="list-group-item">4. <b>yarn-site.xml</b> and replace with following <b>code:</b>
 		  	<div class="c-card left">
 <pre><code>
 &lt;<font color="#ec748c">?xml version="1.0"?</font>&gt;
@@ -162,7 +167,7 @@
 		<hr>
 		<h5>Go to <code>c:\hadoop-2.8.0\sbin\</code></h5>
 		<ul class="list-group">
-			<li class="list-group-item">run <code>start-all.cmd</code> as administrator and make sure all of:
+			<li class="list-group-item">run <code>start-all.cmd</code> as <b>administrator</b> and make sure all of:
 				<ul>
 					<li><b>yarn-node manager</b></li>
 					<li><b>yarn-resource manager</b></li>
@@ -179,6 +184,111 @@
 			</li>
 		</ul>
 		<hr>
+		<h3>Running Mapreduce on hadoop to count words.</h3>
+		<hr>
+
+		<h4>1. Starting hadoop hdfs:</h4>
+		<hr>
+		<h5>Go to <code>c:\hadoop-2.8.0\sbin\</code></h5>
+		<ul class="list-group">
+			<li class="list-group-item">run <code>start-all.cmd</code> as <b>administrator</b> and make sure all of:
+				<ul>
+					<li><b>yarn-node manager</b></li>
+					<li><b>yarn-resource manager</b></li>
+					<li><b>Namenode</b></li>
+					<li><b>Datanode</b></li>
+				</ul>
+				are running.
+			</li>
+		</ul>
+		<hr>
+
+		<h4>2. Create input file:</h4>
+		<hr>
+		<ul class="list-group">
+			<li class="list-group-item">create a file <code>input_file.txt</code> at <code>c:\</code> and add some content.</li>
+			<li>(or)</li>
+			<li class="list-group-item">download this file: <a class="btn btn-success" href="data:text/plain;charset=UTF-8, ./downloads/input_file.txt" target="_blank" download="input_file.txt"><i class="fa fa-download"></i> input_file.txt</a> and place it in <code>c:\</code></li>
+		</ul>
+		<hr>
+
+
+		<h5>for all of the following : open <code>cmd</code> in <b>administrator mode</b></h5>
+		<hr>
+
+
+		<h4>3. Create input directory in hdfs:</h4>
+		<hr>
+		<ul class="list-group">
+			<li class="list-group-item">using the command:
+				<div class="c-card left">
+					<code>hadoop fs -mkdir /input_dir</code>
+				</div>
+			</li>
+		</ul>
+		<hr>
+
+
+		<h4>4. Copy input file to hdfs:</h4>
+		<hr>
+		<ul class="list-group">
+			<li class="list-group-item">using the command:
+				<div class="c-card left">
+					<code>hadoop fs -put c:\input_file.txt /input_dir</code>
+				</div>
+			</li>
+		</ul>
+		<hr>
+
+		<h4>5. Check avalability of input file in hdfs:</h4>
+		<hr>
+		<ul class="list-group">
+			<li class="list-group-item">using the command:
+				<div class="c-card left">
+					<code>hadoop fs -ls /input_dir/</code>
+				</div>
+			</li>
+		</ul>
+		<hr>
+
+		<h4>6. Check content of input file:</h4>
+		<hr>
+		<ul class="list-group">
+			<li class="list-group-item">using the command:
+				<div class="c-card left">
+					<code>hadoop fs -cat /input_dir/input_file.txt</code>
+				</div>
+			</li>
+		</ul>
+		<hr>
+
+		<h4>7. Run map-reduce on input_file:</h4>
+		<hr>
+		<ul class="list-group">
+			<li class="list-group-item">make sure the following file is available:
+				<div class="c-card left">
+					<code>c:\hadoop-2.8.0\share\hadoop\mapreduce\<b>hadoop-mapreduce-examples-2.8.0.jar</b></code>
+				</div>
+			</li>
+			<li class="list-group-item">run mapreduce using the command:
+				<div class="c-card left-l">
+					<code>hadoop jar <b>c:\hadoop-2.8.0\share\hadoop\mapreduce\hadoop-mapreduce-examples-2.8.0.jar</b> wordcount /input_dir /output_dir</code>
+				</div>
+			</li>
+		</ul>
+		<hr>
+
+		<h4>8. Output:</h4>
+		<hr>
+		<ul class="list-group">
+			<li class="list-group-item">After execution complete the output can be checked using the command:
+				<div class="c-card left">
+					<code>hadoop fs -cat /output_dir/*</code>
+				</div>
+			</li>
+		</ul>
+		<hr>
+
 	</div>
 	<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
